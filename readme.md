@@ -3,7 +3,9 @@
 requires: a private space with dns-discovery enabled
 
 ```
-heroku create your-spark-app
+git clone https://github.com/heroku/spark-in-space
+cd spark-in-space
+heroku create your-spark-app --space your-dns-enabled-space
 # have a herokai with sudo add this to your app until run-inside is released
 # heroku sudo labs:enable dyno-run-inside -a your-spark-app
 heroku buildpacks:add http://github.com/kr/heroku-buildpack-inline.git -a your-spark-app
