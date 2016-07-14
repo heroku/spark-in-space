@@ -1,2 +1,3 @@
-master: spark-home/bin/spark-
+master: bin/spark-master
+worker: bin/spark-worker
 console: bin/sleep
