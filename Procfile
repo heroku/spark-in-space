@@ -1,2 +1,2 @@
-master: bin/spark-class
+master: spark-home/bin/spark-
 console: bin/sleep
