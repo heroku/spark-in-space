@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ /app/bin/spark-class org.apache.spark.deploy.master.Master --ip $HEROKU_PRIVATE_IP --port 7077 --webui-port $PORT

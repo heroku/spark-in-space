@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd $1
+
+echo -n "  Downloading Spark..."
+curl -s https://s3.amazonaws.com/heroku-spark/spark-1.6.1-bin-hadoop2.6.tgz | tar -xz
+echo " Done."
+
+#echo -n "  Downloading S3HDFS Support..."
+#curl -s -O https://s3.amazonaws.com/heroku-flink/hadoop-aws-shaded-0.1-SNAPSHOT.jar
+#mv hadoop-aws-shaded-0.1-SNAPSHOT.jar flink-1.0.3/lib
+#echo " Done."
+
+

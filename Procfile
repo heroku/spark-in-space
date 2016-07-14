@@ -1,0 +1,1 @@
+master: bin/spark-class
