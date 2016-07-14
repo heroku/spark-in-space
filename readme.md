@@ -13,7 +13,7 @@ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-jvm-common.git 
 git push heroku master
 heroku scale master=1 worker=2:private-l -a your-spark-app
 heroku logs -a your-spark-app -t
-``
+```
 
 once you see the master online and the workers registered, you can verify the workers do work by
 
