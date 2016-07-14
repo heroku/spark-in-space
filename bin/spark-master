@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-/app/spark-home/bin/spark-class org.apache.spark.deploy.master.Master --host HEROKU_PRIVATE_IP
+/app/spark-home/bin/spark-class org.apache.spark.deploy.master.Master --host $HEROKU_PRIVATE_IP
