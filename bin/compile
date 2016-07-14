@@ -11,11 +11,15 @@ echo " Done."
 mv spark-1.6.1-bin-hadoop2.6 spark-home
 #rm -rf spark-home/lib/spark-examples-1.6.1-hadoop2.6.0.jar
 
+echo -n "  Configuring Spark..."
 mv conf/log4j.properties spark-home/conf
+mv conf/spark-env.sh spark-home/conf
+echo " Done."
 
-#echo -n "  Downloading S3HDFS Support..."
-#curl -s -O https://s3.amazonaws.com/heroku-flink/hadoop-aws-shaded-0.1-SNAPSHOT.jar
-#mv hadoop-aws-shaded-0.1-SNAPSHOT.jar flink-1.0.3/lib
-#echo " Done."
+
+echo -n "  Downloading S3HDFS Support..."
+curl -s -O https://s3.amazonaws.com/heroku-flink/hadoop-aws-shaded-0.1-SNAPSHOT.jar
+mv hadoop-aws-shaded-0.1-SNAPSHOT.jar spark-home/lib
+echo " Done."
 
 
