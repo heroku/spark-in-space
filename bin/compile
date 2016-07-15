@@ -59,11 +59,6 @@ mv hadoop-aws-shaded-0.1-SNAPSHOT.jar spark-home/lib
 echo " Done."
 
 echo -n "-----> Installing NGINX..."
-mkdir -p $build_dir/bin
-$(fetch_nginx_tarball) | tar xzC $build_dir/bin
-echo " Done."
-
-echo -n "-----> Installing NGINX..."
 mkdir -p $build_dir/nginx/bin
 mkdir -p $build_dir/nginx/conf
 mkdir -p $build_dir/nginx/logs

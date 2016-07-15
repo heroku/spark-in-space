@@ -3,5 +3,6 @@
 echo "at=generate-nginx-conf"
 export DAEMON=off
 erb /app/conf/nginx.conf.erb > /app/nginx/conf/nginx.conf
+cp /app/conf/mime.types /app/nginx/conf/mime.types
 echo "at=start-nginx"
 exec /app/nginx/bin/nginx -p /app/nginx -c /app/nginx/conf/nginx.conf
