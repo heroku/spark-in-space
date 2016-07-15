@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-
-#!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 set -e
@@ -63,9 +61,13 @@ echo " Done."
 echo -n "-----> Installing NGINX..."
 mkdir -p $build_dir/bin
 $(fetch_nginx_tarball) | tar xzC $build_dir/bin
-nginx_version=$($build_dir/bin/nginx-$STACK -V 2>&1 | head -1 | awk '{ print $NF }')
 echo " Done."
-echo "-----> Installed ${nginx_version} to /app/bin"
+
+echo -n "-----> Installing NGINX..."
+mkdir -p $build_dir/nginx/bin
+$(fetch_nginx_tarball) | tar xzC $build_dir/nginx/bin
+echo " Done."
+
 
 
 
