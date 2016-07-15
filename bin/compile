@@ -28,7 +28,7 @@ fetch_nginx_tarball() {
 }
 
 fetch_spark_tarball() {
-    local version="1.9.7"
+    local version="1.6.2"
     local hadoop="2.6"
     local tarball_file="spark-$version-bin-hadoop$hadoop.tgz"
     local stack="cedar-14"
