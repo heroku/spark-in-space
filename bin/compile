@@ -1,24 +1,70 @@
 #!/usr/bin/env bash
 
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+
 set -e
 
-cd $1
+build_dir=$1
+cache_dir=$2
+env_dir=$3
+bp_dir=$(dirname $(dirname $0))
 
-echo -n "  Downloading Spark..."
-curl -s https://s3.amazonaws.com/heroku-spark/spark-1.6.1-bin-hadoop2.6.tgz | tar -xz
+cd $build_dir
+
+
+fetch_nginx_tarball() {
+    local version="1.9.7"
+    local tarball_file="nginx-$version.tgz"
+    local stack="cedar-14"
+    local nginx_tarball_url="https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/nginx/$stack/nginx-$version-ngx_mruby.tgz"
+    local dest_path="$cache_dir/$stack/$tarball_file"
+
+    if [ -f "$dest_path" ]; then
+        echo -n "cat $dest_path"
+    else
+        echo -n "curl -L $nginx_tarball_url"
+    fi
+}
+
+fetch_spark_tarball() {
+    local version="1.9.7"
+    locah hadoop="2.6"
+    local tarball_file="spark-$version-bin-hadoop$hadoop.tgz"
+    local stack="cedar-14"
+    local spark_tarball_url="https://s3-external-1.amazonaws.com/heroku-spark/spark-$version-bin-hadoop$hadoop.tgz"
+    local dest_path="$cache_dir/$stack/$tarball_file"
+
+    if [ -f "$dest_path" ]; then
+        echo -n "cat $dest_path"
+    else
+        echo -n "curl -L spark_tarball_url"
+    fi
+}
+
+
+echo -n "-----> Downloading Spark..."
+$(fetch_spark_tarball) | tar xzC $build_dir
+mv $build_dir/spark-1.6.1-bin-hadoop2.6 $build_dir/spark-home
 echo " Done."
 
-mv spark-1.6.1-bin-hadoop2.6 spark-home
-rm -rf spark-home/lib/spark-examples-1.6.1-hadoop2.6.0.jar
 
-echo -n "  Configuring Spark..."
-mv conf/log4j.properties spark-home/conf
-mv conf/spark-env.sh spark-home/conf
+echo -n "-----> Configuring Spark..."
+rm -rf $build_dir/spark-home/lib/spark-examples-1.6.1-hadoop2.6.0.jar
+mv $bp_dir/conf/log4j.properties $build_dir/spark-home/conf
+mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
 echo " Done."
 
-echo -n "  Downloading S3HDFS Support..."
+echo -n "-----> Downloading S3HDFS Support..."
 curl -s -O https://s3.amazonaws.com/heroku-flink/hadoop-aws-shaded-0.1-SNAPSHOT.jar
 mv hadoop-aws-shaded-0.1-SNAPSHOT.jar spark-home/lib
 echo " Done."
+
+
+mkdir -p $build_dir/bin
+$(fetch_nginx_tarball) | tar xzC $build_dir/bin
+nginx_version=$($build_dir/bin/nginx-$STACK -V 2>&1 | head -1 | awk '{ print $NF }')
+echo "-----> Installed ${nginx_version} to /app/bin"
+
 
 
