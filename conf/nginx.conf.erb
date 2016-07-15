@@ -32,30 +32,18 @@ http {
 		server_name _;
 		keepalive_timeout 5;
 
-	  location ~ /(?<spark_backend>([^/]*))/(?<proxied_path>(.*))$ {
-	      resolver <%= ENV["RESOLVER"] %>;
-	      proxy_pass http://$spark_backend/$proxied_path;
-	      proxy_redirect     ~*http://$spark_backend/(.+)$ /$spark_backend/$1
-        proxy_set_header   Host $host;
-        sub_filter "href=\/" "href=/$spark_backend/";
-        sub_filter_once off;
+    location ~ /set-backend/(?<spark_backend>([^/]*))$ {
+      add_header Set-Cookie "backend=$spark_backend;Path=/";
+      add_header Content-Type text/plain;
+      return 200 "Set Backend to $spark_backend";
     }
 
-		location ~ /(?<spark_backend>([^/]*))$ {
-	      resolver <%= ENV["RESOLVER"] %>;
-		    proxy_pass http://$spark_backend/;
-	      proxy_redirect     off;
-        proxy_set_header   Host $host;
-        sub_filter "href=\/" "href=/$spark_backend/";
-        sub_filter_once off;
-		}
-
-
-		#location  / {
-    #  proxy_pass         http://1.master.<%=ENV["HEROKU_DNS_APP_NAME"]%>:8080;
-    #  proxy_redirect     off;
-    #  proxy_set_header   Host $host;
-    #}
+		location  / {
+		  resolver <%= ENV["RESOLVER"] %>;
+      proxy_pass         http://$cookie_backend;
+      proxy_redirect     off;
+      proxy_set_header   Host $host;
+    }
 
 	}
 }
