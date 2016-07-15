@@ -19,12 +19,26 @@ once you see the master online and the workers registered, you can verify the wo
 
 ```
 heroku run:inside master.1 bash -a your-spark-app
-./spark-home/bin/spark-shell --master spark://$HEROKU_PRIVATE_IP:7077
+./bin/spark-shell
 sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
+
+### viewing spark ui
+
+there is an nginx server that can proxy to any dyno in the space.
+
+To set a cookie so that you proxy to the spark master, hit the following url
+
+`http://<your-spark-app>.herokuapp.com/set-backend/1.master.<your-spark-app>.app.localspace:7077`
+
+then go to
+
+`http://<your-spark-app>.herokuapp.com`
+
+You will see proxied version of the spark master UI. You can hit the `/set-backend` path with other in-space hostname:port combos
+to be able to see workers and driver program ui.
 
 
 ### TODO:
 
-* add nginx proxy to master web ui
 * example s3 hdfs config via bucketeer
