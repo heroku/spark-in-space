@@ -32,19 +32,18 @@ http {
 		server_name _;
 		keepalive_timeout 5;
 
+	  location ~ /(?<spark_backend>([^/]*))/(?<proxied_path>(.*))$ {
+	      proxy_pass http://$spark_backend/$proxied_path
+	      proxy_redirect     off;
+        proxy_set_header   Host $host;
+    }
+
 		location ~ /(?<spark_backend>([^/]*))$ {
-		  return 200 "$spark_backend 1";
+	      proxy_pass http://$spark_backend/
+	      proxy_redirect     off;
+        proxy_set_header   Host $host;
 		}
 
-		location ~ /(?<spark_backend>([^/]*))/$ {
-		 		  return 200 "$spark_backend 2";
-
-		}
-
-		location ~ /(?<spark_backend>([^/]*))/(.*)$ {
-				  return 200 "$spark_backend 3 $1";
-
-		}
 
 		#location  / {
     #  proxy_pass         http://1.master.<%=ENV["HEROKU_DNS_APP_NAME"]%>:8080;
