@@ -29,7 +29,7 @@ fetch_nginx_tarball() {
 
 fetch_spark_tarball() {
     local version="1.9.7"
-    locah hadoop="2.6"
+    local hadoop="2.6"
     local tarball_file="spark-$version-bin-hadoop$hadoop.tgz"
     local stack="cedar-14"
     local spark_tarball_url="https://s3-external-1.amazonaws.com/heroku-spark/spark-$version-bin-hadoop$hadoop.tgz"
