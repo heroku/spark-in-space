@@ -35,8 +35,10 @@ http {
 	  location ~ /(?<spark_backend>([^/]*))/(?<proxied_path>(.*))$ {
 	      resolver <%= ENV["RESOLVER"] %>;
 	      proxy_pass http://$spark_backend/$proxied_path;
-	      proxy_redirect     off;
+	      proxy_redirect     ~*http://$spark_backend/(.+)$ /$spark_backend/$1
         proxy_set_header   Host $host;
+        sub_filter "href=\/" "href=/$spark_backend/";
+        sub_filter_once off;
     }
 
 		location ~ /(?<spark_backend>([^/]*))$ {
@@ -44,6 +46,8 @@ http {
 		    proxy_pass http://$spark_backend/;
 	      proxy_redirect     off;
         proxy_set_header   Host $host;
+        sub_filter "href=\/" "href=/$spark_backend/";
+        sub_filter_once off;
 		}
 
 
