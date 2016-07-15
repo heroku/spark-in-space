@@ -32,7 +32,7 @@ http {
 		server_name _;
 		keepalive_timeout 5;
 
-		location ~ /(?<spark_backend>([^/]*))/ {
+		location ~ /\/(?<spark_backend>([^/]*))/ {
 		  rewrite ^/$spark_backend(.*) $1 break;
       proxy_pass http://$spark_backend/;
       proxy_redirect     off;
