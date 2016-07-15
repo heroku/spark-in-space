@@ -2,6 +2,7 @@
 
 echo "at=generate-nginx-conf"
 export DAEMON=off
+export RESOLVER=$(cat /etc/resolv.conf |grep -i nameserver|head -n1|cut -d ' ' -f2)
 erb /app/conf/nginx.conf.erb > /app/nginx/conf/nginx.conf
 cp /app/conf/mime.types /app/nginx/conf/mime.types
 echo "at=start-nginx"

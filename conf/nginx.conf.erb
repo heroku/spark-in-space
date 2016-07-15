@@ -33,13 +33,15 @@ http {
 		keepalive_timeout 5;
 
 	  location ~ /(?<spark_backend>([^/]*))/(?<proxied_path>(.*))$ {
+	      resolver <%= ENV["RESOLVER"] %>;
 	      proxy_pass http://$spark_backend/$proxied_path;
 	      proxy_redirect     off;
         proxy_set_header   Host $host;
     }
 
 		location ~ /(?<spark_backend>([^/]*))$ {
-	      proxy_pass http://$spark_backend/;
+	      resolver <%= ENV["RESOLVER"] %>;
+		    proxy_pass http://$spark_backend/;
 	      proxy_redirect     off;
         proxy_set_header   Host $host;
 		}
