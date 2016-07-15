@@ -38,7 +38,7 @@ fetch_spark_tarball() {
     if [ -f "$dest_path" ]; then
         echo -n "cat $dest_path"
     else
-        echo -n "curl -L spark_tarball_url"
+        echo -n "curl -L $spark_tarball_url"
     fi
 }
 
