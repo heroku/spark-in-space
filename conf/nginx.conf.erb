@@ -33,7 +33,7 @@ http {
 		keepalive_timeout 5;
 
 		location ~ /(?<spark_backend>.+)/(?<spark_path>.+)$ {
-      proxy_pass http://$spark_backend/$spark_path
+      proxy_pass http://$spark_backend/$spark_path;
       proxy_redirect     on;
       proxy_set_header Host $host;
 		}
