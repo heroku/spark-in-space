@@ -42,3 +42,5 @@ to be able to see workers and driver program ui.
 ### TODO:
 
 * example s3 hdfs config via bucketeer
+* zookeeper based HA spark master
+* factor into a buildpack that can be added to any jvm app, which gets the master,worker,web procs made available.
