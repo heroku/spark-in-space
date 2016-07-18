@@ -49,7 +49,7 @@ the number of masters you specify.
 
 For example if `SPARK_MASTERS` is set to 3 on the app `your-app`, the master url will be
 
-`spark://1.master.your-app.app.localspace:7077,2.master.your-app.app.localspace:7077,3.master.your-app.app.localspace`
+`spark://1.master.your-app.app.localspace:7077,2.master.your-app.app.localspace:7077,3.master.your-app.app.localspace:7077`
 
 
 
