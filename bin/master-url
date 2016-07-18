@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+# if SPARK_MASTERS is set we assume multiple HA masters. if not set we default to 1
+
+MASTER_URL="spark://"
+
+if [ -z "$SPARK_MASTERS" ];
+then
+  MASTER_URL="${MASTER_URL}1.master.$HEROKU_DNS_APP_NAME:7077,"
+else
+  for i in $(seq 1 1 $SPARK_MASTERS); do
+    MASTER_URL="${MASTER_URL}$i.master.$HEROKU_DNS_APP_NAME:7077,"
+  done
+fi
+
+#Drop trailin commma
+MASTER_URL=$(echo $MASTER_URL | sed "s/.$//g")
+echo $MASTER_URL
