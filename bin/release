@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# bin/release
+# heroku inline buildpack
+
 
 echo "--- {}"
 

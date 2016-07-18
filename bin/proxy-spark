@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# bin/proxy-spark
+# generate nginx conf and run nginx
 
 echo "at=generate-nginx-conf"
 export DAEMON=off

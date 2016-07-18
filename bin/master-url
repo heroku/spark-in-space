@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# bin/master-url
+# output the spark master url based on SPARK_MASTERS and HEROKU_DNS_APP_NAME env vars.
 
 set -e
 

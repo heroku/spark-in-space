@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# bin/spark-master
+# generate spark-defaults.conf and start a spark master node
 
 erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
 
