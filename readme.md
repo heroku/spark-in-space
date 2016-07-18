@@ -51,12 +51,35 @@ For example if `SPARK_MASTERS` is set to 3 on the app `your-app`, the master url
 
 `spark://1.master.your-app.app.localspace:7077,2.master.your-app.app.localspace:7077,3.master.your-app.app.localspace:7077`
 
+### S3 HDFS
 
+You can use s3 as an hdfs compatible filesystem by installing the `bucketeer` addon.
 
+If you do this, bucketeer will set `BUCKETEER_BUCKET_NAME`, `BUCKETEER_AWS_ACCESS_KEY_ID`, `BUCKETEER_AWS_SECRET_ACCESS_KEY` config vars.
 
+This will be detected and cause the writing of proper defaults to spark-defaults.conf. You can then use s3a:// urls in spark.
 
+```
+heroku run:inside master.1 bash -a your-spark-app
+./bin/spark-shell
+
+val bucket = sys.env("BUCKETEER_BUCKET_NAME")
+val file = s"s3a://$bucket/test-object-file"
+val ints = sc.makeRDD(1 to 10000000)
+ints.saveAsObjectFile(file)
+### lots of spark output
+
+:q
+
+./bin/spark-shell
+val bucket = sys.env("BUCKETEER_BUCKET_NAME")
+val file = s"s3a://$bucket/test-object-file"
+val theInts = sc.objectFile[Int](file)
+theInts.reduce(_ + _)
+### lots of spark output
+res0: Int = -2004260032
+```
 
 ### TODO:
 
-* example s3 hdfs config via bucketeer
 * factor into a buildpack that can be added to any jvm app, which gets the master,worker,web procs made available.
