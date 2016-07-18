@@ -15,6 +15,6 @@ else
   done
 fi
 
-#Drop trailin commma
+#Drop trailing commma
 MASTER_URL=$(echo $MASTER_URL | sed "s/.$//g")
 echo $MASTER_URL

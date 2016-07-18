@@ -38,9 +38,25 @@ then go to
 You will see proxied version of the spark master UI. You can hit the `/set-backend` path with other in-space hostname:port combos
 to be able to see workers and driver program ui.
 
+### HA Spark Masters
+
+High availability spark masters can be accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
+
+If there is a `HEROKU_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
+
+If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers and spark-shell will use spark master urls that point at
+the number of masters you specify.
+
+For example if `SPARK_MASTERS` is set to 3 on the app `your-app`, the master url will be
+
+`spark://1.master.your-app.app.localspace:7077,2.master.your-app.app.localspace:7077,3.master.your-app.app.localspace`
+
+
+
+
+
 
 ### TODO:
 
 * example s3 hdfs config via bucketeer
-* zookeeper based HA spark master
 * factor into a buildpack that can be added to any jvm app, which gets the master,worker,web procs made available.
