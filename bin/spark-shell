@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
+
 exec /app/spark-home/bin/spark-shell --master $(/app/bin/master-url) "$@"

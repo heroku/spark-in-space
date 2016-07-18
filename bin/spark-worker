@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
+
 /app/spark-home/bin/spark-class org.apache.spark.deploy.worker.Worker $(/app/bin/master-url)
