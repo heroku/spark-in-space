@@ -29,7 +29,7 @@ there is an nginx server that can proxy to any dyno in the space.
 
 To set a cookie so that you proxy to the spark master, hit the following url
 
-`http://<your-spark-app>.herokuapp.com/set-backend/1.master.<your-spark-app>.app.localspace:7077`
+`http://<your-spark-app>.herokuapp.com/set-backend/1.master.<your-spark-app>.app.localspace:8080`
 
 then go to
 
