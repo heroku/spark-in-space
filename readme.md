@@ -44,7 +44,7 @@ to be able to see workers and driver program ui.
 
 High availability spark masters can be accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
 
-If there is a `HEROKU_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
+If there is a `KAFKA_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
 
 If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers and spark-shell will use spark master urls that point at
 the number of masters you specify.
