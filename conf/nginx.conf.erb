@@ -40,7 +40,7 @@ http {
 
 		location  / {
 			auth_basic           "spark-in-space";
-      auth_basic_user_file /app/conf/htpasswd;
+      auth_basic_user_file /app/nginx/conf/htpasswd;
 		  resolver <%= ENV["RESOLVER"] %>;
       proxy_pass         http://$cookie_backend;
       proxy_redirect     off;
