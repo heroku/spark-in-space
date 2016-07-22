@@ -13,14 +13,14 @@ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-jvm-common.git 
 #set spark:space as the basic auth web creds in nginx format
 heroku config:set SPARK_BASIC_AUTH=spark:{PLAIN}space
 git push heroku master
-heroku scale master=1 worker=2:private-l -a your-spark-app
+heroku scale master=1 worker=2:private-l console=1 -a your-spark-app
 heroku logs -a your-spark-app -t
 ```
 
 once you see the master online and the workers registered, you can verify the workers do work by
 
 ```
-heroku run:inside master.1 bash -a your-spark-app
+heroku run:inside console.1 bash -a your-spark-app
 ./bin/spark-shell
 sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
@@ -62,7 +62,7 @@ If you do this, bucketeer will set `BUCKETEER_BUCKET_NAME`, `BUCKETEER_AWS_ACCES
 This will be detected and cause the writing of proper defaults to spark-defaults.conf. You can then use s3a:// urls in spark.
 
 ```
-heroku run:inside master.1 bash -a your-spark-app
+heroku run:inside console.1 bash -a your-spark-app
 ./bin/spark-shell
 
 val bucket = sys.env("BUCKETEER_BUCKET_NAME")
