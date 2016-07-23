@@ -11,4 +11,4 @@ if ! [ -z "$KAFKA_ZOOKEEPER_URL" ]; then
   export SPARK_DAEMON_JAVA_OPTS="-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.dir=/spark -Dspark.deploy.zookeeper.url=$zkurl"
 fi
 
-SPARK_LIBRARY_PATH=/app/spark-home/lib
+LD_LIBRARY_PATH=/app/spark-home/lib
