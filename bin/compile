@@ -55,8 +55,13 @@ mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
 echo " Done."
 
 echo -n "-----> Installing s3a:// HDFS Support..."
+curl -s -O https://s3.amazonaws.com/heroku-spark/libhadoop.so.1.0.0
+curl -s -O https://s3.amazonaws.com/heroku-spark/libhdfs.so.0.0.0
 curl -s -O https://s3.amazonaws.com/heroku-spark/hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
+mv libhadoop.so.1.0.0 spark-home/lib/libhadoop.so
+mv libhdfs.so.0.0.0 spark-home/lib/libhdfs.so
 mv hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar spark-home/lib
+
 echo " Done."
 
 echo -n "-----> Installing NGINX..."

@@ -10,3 +10,5 @@ if ! [ -z "$KAFKA_ZOOKEEPER_URL" ]; then
   zkurl=$(echo $KAFKA_ZOOKEEPER_URL | sed 's/zookeeper\:\/\///g')
   export SPARK_DAEMON_JAVA_OPTS="-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.dir=/spark -Dspark.deploy.zookeeper.url=$zkurl"
 fi
+
+SPARK_LIBRARY_PATH=/app/spark-home/lib
