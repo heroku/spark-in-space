@@ -65,6 +65,7 @@ mv libhdfs.so.0.0.0 spark-home/lib/libhdfs.so
 mv hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar spark-home/lib
 mv log-shuttle-appender-0.1-SNAPSHOT.jar spark-home/lib
 mv log-shuttle $build_dir/.heroku/bin/log-shuttle   #dir created by jvm buildpack and added to PATH
+chmod +x $build_dir/.heroku/bin/log-shuttle
 
 echo " Done."
 
