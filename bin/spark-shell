@@ -6,5 +6,6 @@ erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
 
 exec /app/spark-home/bin/spark-shell --master $(/app/bin/master-url)  \
      --conf spark.executorEnv.USERSPACE_LOGGING_URL=$USERSPACE_LOGGING_URL \
-     --conf spark.executor.extraJavaOptions="-Dlog4j.configuration=file:///app/conf/executor.log4j.properties -Dlog4j.debug=true" \
+     --conf spark.executorEnv.PROC_NAME=spark-shell \
+     --conf spark.executor.extraJavaOptions="-Dlog4j.configuration=file:///app/conf/executor.log4j.properties" \
      "$@"
