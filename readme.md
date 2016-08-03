@@ -12,6 +12,7 @@ heroku buildpacks:add http://github.com/kr/heroku-buildpack-inline.git -a your-s
 heroku buildpacks:add https://github.com/heroku/heroku-buildpack-jvm-common.git -a your-spark-app
 #set spark:space as the basic auth web creds in nginx format
 heroku config:set SPARK_BASIC_AUTH=spark:{PLAIN}space
+heroku config:set PYSPARK_PYTHON=python3
 git push heroku master
 heroku scale master=1 worker=2:private-l console=1 -a your-spark-app
 heroku logs -a your-spark-app -t

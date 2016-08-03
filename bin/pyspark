@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# bin/spark-shell
+# generate spark-defaults.conf and start a spark-shell pointing at correct master url.
+
+erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
+
+exec /app/spark-home/bin/pyspark --master $(/app/bin/master-url) "$@"
