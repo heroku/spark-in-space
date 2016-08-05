@@ -70,7 +70,7 @@ A better setting for real use is `heroku config:set LOG_LEVEL=WARN -a $app`.
 
 ### S3 HDFS
 
-You can use s3 as an hdfs compatible filesystem by installing the `bucketeer` addon, with the `--as SPARK` option. 
+You can use s3 as an hdfs compatible filesystem by installing the `bucketeer` addon, using the `--as SPARK_S3` option. 
 
 This is provided by the button deploy.
 
