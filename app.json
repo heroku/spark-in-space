@@ -45,7 +45,7 @@
       "url": "http://github.com/kr/heroku-buildpack-inline.git"
     },
     {
-      "url": "http://github.com/kr/heroku-buildpack-jvm-common.git"
+      "url": "http://github.com/heroku/heroku-buildpack-jvm-common.git"
     }
   ]
 }
