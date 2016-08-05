@@ -1,6 +1,6 @@
 ### spark-in-space 
 
-Heroku Button deploy of a highly available Spark cluster.
+Heroku Button deploy of an (optionally highly available) Spark cluster.
 
 requires: a private space with dns-discovery enabled, *NOTE* dont use the button if you have a non dns-discovery space, it will absolutely not work.
 
@@ -8,14 +8,7 @@ If you use this cluster for real work, please protect it by adding a domain and 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
 
-Once your button deploy completes, wait for the kafka cluster to become available (its zookeeper provides spark master HA).
-
-```
-app=<your app name>
-heroku kafka:wait -a $app
-```
-
-Once the kafka is available, you can tail the logs and see the master come online and the workers connect to it.
+Once your button deploy completes, you can tail the logs and see the master come online and the workers connect to it.
 
 ```
 heroku logs -t -a $app
@@ -56,18 +49,27 @@ to be able to see workers and driver program ui.
 
 ### HA Spark Masters
 
-High availability spark masters are provided by the heroku button deploy. They are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
+High availability spark masters are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
 
 If there is a `KAFKA_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
 
-If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers and spark-shell will use spark master urls that point at
+To add this addon do the following:
+
+```
+app=<your app name>
+heroku addons:create heroku-kafka -a $app
+heroku kafka:wait -a $app
+```
+
+Once the kafka is available, you can tail the logs and watch the master come back up and the workers connect to it.
+
+If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers, spark-submit and spark-shell will use spark master urls that point at
 the number of masters you specify.
+ 
+For example, If you want 3 masters, you should `heroku scale master=3 -a $app`, then `heroku config:set SPARK_MASTERS=3 -a $app`, and the master url will be
 
-For example if `SPARK_MASTERS` is set to 3 on the app `your-app`, the master url will be
+`spark://1.master.$app.app.localspace:7077,2.master.$app.app.localspace:7077,3.master.$app.app.localspace:7077`
 
-`spark://1.master.your-app.app.localspace:7077,2.master.your-app.app.localspace:7077,3.master.your-app.app.localspace:7077`
-
-If you are deploying this app manually, or dont need HA spark masters, you can skip or remove the kafka addon and the spark cluster should still function, just without HA.
 
 ### S3 HDFS
 

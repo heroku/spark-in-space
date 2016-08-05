@@ -37,11 +37,6 @@
       "plan": "bucketeer",
       "as": "SPARK"
     },
-    {
-      "plan": "heroku-kafka",
-      "options": {
-        "version": "0.10"
-      }
     }
   ],
   "buildpacks": [
