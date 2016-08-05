@@ -8,6 +8,8 @@ If you use this cluster for real work, please protect it by adding a domain and 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
 
+Note: The rest of this readme assumes you have set your app name as `$app` in your shell, like so `app=my-spark-cluster`.
+
 Once your button deploy completes, you can tail the logs and see the master come online and the workers connect to it.
 
 ```
@@ -109,7 +111,6 @@ If there is a `SPARK_ZOOKEEPER_URL` set, then the spark processes will be config
 If you have an existing heroku-kafka addon you can attach it using `--as SPARK`. 
 
 ```
-app=<your app name>
 $kafka=your-kafka-addon-name
 heroku addons:attach $kafka -a $app --as SPARK
 ```
@@ -117,7 +118,6 @@ heroku addons:attach $kafka -a $app --as SPARK
 if you do not you can add a heroku-kafka addon `--as SPARK`
 
 ```
-app=<your app name>
 heroku addons:create heroku-kafka -a $app --as SPARK
 heroku kafka:wait -a $app
 ```
