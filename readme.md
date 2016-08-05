@@ -6,6 +6,8 @@ requires: a private space with dns-discovery enabled, *NOTE* dont use the button
 
 If you use this cluster for real work, please protect it by adding a domain and ssl cert.
 
+You should probably right-click 'open link in new window' on the button so you can follow the readme here.
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
 
 Note: The rest of this readme assumes you have set your app name as `$app` in your shell, like so `app=my-spark-cluster`.
@@ -63,7 +65,8 @@ to be able to see workers and driver program ui.
 ### Logging
 
 The `LOG_LEVEL` environment variable controls the log4j log level for spark, it defaults to INFO, but you may set it to any 
-valid level.
+valid level. INFO provides a lot of logging so you can see things are working properly, but can slow things down.
+A better setting for real use is `heroku config:set LOG_LEVEL=WARN -a $app`.
 
 ### S3 HDFS
 
@@ -71,7 +74,7 @@ You can use s3 as an hdfs compatible filesystem by installing the `bucketeer` ad
 
 This is provided by the button deploy.
 
-If you do this, bucketeer will set `SPARK_BUCKET_NAME`, `SPARK_AWS_ACCESS_KEY_ID`, `SPARK_AWS_SECRET_ACCESS_KEY` config vars.
+If you do this, bucketeer will set `SPARK_S3_BUCKET_NAME`, `SPARK_S3_AWS_ACCESS_KEY_ID`, `SPARK_S3_AWS_SECRET_ACCESS_KEY` config vars.
 
 This will be detected and cause the writing of proper defaults to spark-defaults.conf. You can then use s3a:// urls in spark.
 
@@ -83,7 +86,7 @@ To try out the S3 functionality, you can do the following.
 heroku run:inside console.1 bash -a your-spark-app
 ./bin/spark-shell
 
-val bucket = sys.env("SPARK_BUCKET_NAME")
+val bucket = sys.env("SPARK_S3_BUCKET_NAME")
 val file = s"s3a://$bucket/test-object-file"
 val ints = sc.makeRDD(1 to 10000)
 ints.saveAsObjectFile(file)
@@ -92,9 +95,7 @@ ints.saveAsObjectFile(file)
 :q
 
 ./bin/spark-shell
-v
-
-al bucket = sys.env("SPARK_BUCKET_NAME")
+val bucket = sys.env("SPARK_S3_BUCKET_NAME")
 val file = s"s3a://$bucket/test-object-file"
 val theInts = sc.objectFile[Int](file)
 theInts.reduce(_ + _)
@@ -106,19 +107,19 @@ res0: Int = -2004260032
 
 High availability spark masters are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
 
-If there is a `SPARK_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
+If there is a `SPARK_ZK_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
 
-If you have an existing heroku-kafka addon you can attach it using `--as SPARK`. 
+If you have an existing heroku-kafka addon you can attach it using `--as SPARK_ZK`. 
 
 ```
 $kafka=your-kafka-addon-name
-heroku addons:attach $kafka -a $app --as SPARK
+heroku addons:attach $kafka -a $app --as SPARK_ZK
 ```
 
-if you do not you can add a heroku-kafka addon `--as SPARK`
+if you do not you can add a heroku-kafka addon `--as SPARK_ZK`
 
 ```
-heroku addons:create heroku-kafka -a $app --as SPARK
+heroku addons:create heroku-kafka -a $app --as SPARK_ZK
 heroku kafka:wait -a $app
 ```
 
