@@ -104,13 +104,21 @@ res0: Int = -2004260032
 
 High availability spark masters are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
 
-If there is a `KAFKA_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
+If there is a `SPARK_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
 
-To add this addon do the following:
+If you have an existing heroku-kafka addon you can attach it using `--as SPARK`. 
 
 ```
 app=<your app name>
-heroku addons:create heroku-kafka -a $app
+$kafka=your-kafka-addon-name
+heroku addons:attach $kafka -a $app --as SPARK
+```
+
+if you do not you can add a heroku-kafka addon `--as SPARK`
+
+```
+app=<your app name>
+heroku addons:create heroku-kafka -a $app --as SPARK
 heroku kafka:wait -a $app
 ```
 
