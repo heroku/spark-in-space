@@ -34,8 +34,8 @@ http {
 
     location ~ /set-backend/(?<spark_backend>([^/]*))$ {
       add_header Set-Cookie "backend=$spark_backend;Path=/";
-      add_header Content-Type text/plain;
-      return 200 "Set Backend to $spark_backend";
+      default_type "text/html";
+      alias /app/nginx/conf/set-backend.html;
     }
 
 		location  / {
