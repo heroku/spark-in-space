@@ -25,6 +25,10 @@
     "console": {
       "quantity": 1,
       "size": "Private-M"
+    },
+    "web": {
+      "quantity": 1,
+      "size": "Private-S"
     }
   },
   "image": "heroku/jvm",

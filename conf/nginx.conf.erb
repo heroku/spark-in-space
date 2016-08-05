@@ -41,8 +41,11 @@ http {
 		location  / {
 			auth_basic           "spark-in-space";
       auth_basic_user_file /app/nginx/conf/htpasswd;
+		  if ($http_cookie ~* 'backend') {
+        	return 307 /set-backend/1.master.<%= ENV["HEROKU_DNS_APP_NAME"] %>:8080
+      }
 		  resolver <%= ENV["RESOLVER"] %>;
-      proxy_pass         http://$cookie_backend;
+		  proxy_pass         $scheme://$cookie_backend;
       proxy_redirect     off;
       proxy_set_header   Host $host;
     }
