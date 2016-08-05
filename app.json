@@ -1,0 +1,51 @@
+{
+  "name": "spark-in-space",
+  "description": "spark cluster in a private space",
+  "keywords": [
+    "spark",
+    "private-spaces",
+    "dns-discovery"
+  ],
+  "repository": "https://github.com/heroku/spark-in-space",
+  "env": {
+    "SPARK_BASIC_AUTH": {
+      "description": "nginx basic auth",
+      "value": "spark:{PLAIN}space"
+    }
+  },
+  "formation": {
+    "master": {
+      "quantity": 1,
+      "size": "Private-M"
+    },
+    "worker": {
+      "quantity": 2,
+      "size": "Private-L"
+    },
+    "console": {
+      "quantity": 1,
+      "size": "Private-M"
+    }
+  },
+  "image": "heroku/jvm",
+  "addons": [
+    {
+      "plan": "bucketeer",
+      "as": "SPARK"
+    },
+    {
+      "plan": "heroku-kafka",
+      "options": {
+        "version": "0.10"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "http://github.com/kr/heroku-buildpack-inline.git"
+    },
+    {
+      "url": "http://github.com/kr/heroku-buildpack-jvm-common.git"
+    }
+  ]
+}
