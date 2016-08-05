@@ -1,44 +1,46 @@
 ### spark-in-space
 
+requires: a private space with dns-discovery enabled, *NOTE* dont use the button if you have a non dns-discovery space, it will absolutely not work.
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
 
 
-requires: a private space with dns-discovery enabled
+Once your button deploy completes, wait for the kafka cluster to become available (its zookeeper provides spark master HA).
 
 ```
-git clone https://github.com/heroku/spark-in-space
-cd spark-in-space
-heroku create your-spark-app --space your-dns-enabled-space
-# have a herokai with sudo add this to your app until run-inside is released
-# heroku sudo labs:enable dyno-run-inside -a your-spark-app
-heroku buildpacks:add http://github.com/kr/heroku-buildpack-inline.git -a your-spark-app
-heroku buildpacks:add https://github.com/heroku/heroku-buildpack-jvm-common.git -a your-spark-app
-#set spark:space as the basic auth web creds in nginx format
-heroku config:set SPARK_BASIC_AUTH=spark:{PLAIN}space
-git push heroku master
-heroku scale master=1 worker=2:private-l console=1 -a your-spark-app
-heroku logs -a your-spark-app -t
+app=<your app name>
+heroku kafka:wait -a $app
 ```
 
-once you see the master online and the workers registered, you can verify the workers do work by
+Once the kafka is available, you can tail the logs and see the master come online and the workers connect to it.
 
 ```
-heroku run:inside console.1 bash -a your-spark-app
-./bin/spark-shell
+heroku logs -t -a $app
+```
+
+once you see the master online and the workers registered, you can verify the workers do work by:
+
+```
+heroku run console.1 bin/spark-shell -a $apps
 sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
 
+you can view the spark master by:
+
+```
+heroku open -a $app
+```
+
+
 ### viewing spark ui
 
-there is an nginx server that can proxy to any dyno in the space.
+there is an nginx server that can proxy to any dyno in the space. The server will default you to proxying to the master.1 spark process.
 
 To set a cookie so that you proxy to the spark master, hit the following url
 
 `http://<your-spark-app>.herokuapp.com/set-backend/1.master.<your-spark-app>.app.localspace:8080`
 
-then go to
-
-`http://<your-spark-app>.herokuapp.com`
+you will be redirected to the root web ui of the backend you have selected.
 
 You will see proxied version of the spark master UI. You can hit the `/set-backend` path with other in-space hostname:port combos
 to be able to see workers and driver program ui.
