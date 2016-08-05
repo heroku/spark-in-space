@@ -1,4 +1,4 @@
-### spark-in-space
+### spark-in-space 
 
 requires: a private space with dns-discovery enabled, *NOTE* dont use the button if you have a non dns-discovery space, it will absolutely not work.
 
@@ -47,7 +47,7 @@ to be able to see workers and driver program ui.
 
 ### HA Spark Masters
 
-High availability spark masters can be accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
+High availability spark masters are provided by the heroku button deploy. They are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
 
 If there is a `KAFKA_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
 
@@ -58,28 +58,36 @@ For example if `SPARK_MASTERS` is set to 3 on the app `your-app`, the master url
 
 `spark://1.master.your-app.app.localspace:7077,2.master.your-app.app.localspace:7077,3.master.your-app.app.localspace:7077`
 
+If you are deploying this app manually, or dont need HA spark masters, you can skip or remove the kafka addon and the spark cluster should still function, just without HA.
+
 ### S3 HDFS
 
-You can use s3 as an hdfs compatible filesystem by installing the `bucketeer` addon.
+You can use s3 as an hdfs compatible filesystem by installing the `bucketeer` addon, with the `--as SPARK` option. 
 
-If you do this, bucketeer will set `BUCKETEER_BUCKET_NAME`, `BUCKETEER_AWS_ACCESS_KEY_ID`, `BUCKETEER_AWS_SECRET_ACCESS_KEY` config vars.
+This is provided by the button deploy.
+
+If you do this, bucketeer will set `SPARK_BUCKET_NAME`, `SPARK_AWS_ACCESS_KEY_ID`, `SPARK_AWS_SECRET_ACCESS_KEY` config vars.
 
 This will be detected and cause the writing of proper defaults to spark-defaults.conf. You can then use s3a:// urls in spark.
+
+If you are deploying this app manually or dont need S3 HDFS, you can skip or remove the bucketeer adddon and the spark cluster should still function, just without S3 access.
+
+To try out the S3 functionality, you can do the following.
 
 ```
 heroku run:inside console.1 bash -a your-spark-app
 ./bin/spark-shell
 
-val bucket = sys.env("BUCKETEER_BUCKET_NAME")
+val bucket = sys.env("SPARK_BUCKET_NAME")
 val file = s"s3a://$bucket/test-object-file"
-val ints = sc.makeRDD(1 to 10000000)
+val ints = sc.makeRDD(1 to 10000)
 ints.saveAsObjectFile(file)
 ### lots of spark output
 
 :q
 
 ./bin/spark-shell
-val bucket = sys.env("BUCKETEER_BUCKET_NAME")
+val bucket = sys.env("SPARK_BUCKET_NAME")
 val file = s"s3a://$bucket/test-object-file"
 val theInts = sc.objectFile[Int](file)
 theInts.reduce(_ + _)
@@ -87,6 +95,3 @@ theInts.reduce(_ + _)
 res0: Int = -2004260032
 ```
 
-### TODO:
-
-* factor into a buildpack that can be added to any jvm app, which gets the master,worker,web procs made available.
