@@ -4,11 +4,11 @@ Heroku Button deploy of a highly available Spark cluster.
 
 requires: a private space with dns-discovery enabled, *NOTE* dont use the button if you have a non dns-discovery space, it will absolutely not work.
 
+If you use this cluster for real work, please protect it by adding a domain and ssl cert.
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
 
 Once your button deploy completes, wait for the kafka cluster to become available (its zookeeper provides spark master HA).
-
-If you use this cluster for real work, please protect it by adding a domain and ssl cert.
 
 ```
 app=<your app name>
@@ -28,7 +28,8 @@ heroku run console.1 bin/spark-shell -a $apps
 sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
 
-you can view the spark master by:
+you can view the spark master by running the command below. The default basic auth credentials are `spark:space`, and can be changed
+by updating the `SPARK_BASIC_AUTH` config var, which by default is set to nginx PLAIN format, `spark:{PLAIN}space`
 
 ```
 heroku open -a $app
