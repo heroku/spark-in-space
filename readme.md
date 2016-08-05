@@ -6,8 +6,9 @@ requires: a private space with dns-discovery enabled, *NOTE* dont use the button
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
 
-
 Once your button deploy completes, wait for the kafka cluster to become available (its zookeeper provides spark master HA).
+
+If you use this cluster for real work, please protect it by adding a domain and ssl cert.
 
 ```
 app=<your app name>
