@@ -1,5 +1,7 @@
 ### spark-in-space 
 
+Heroku Button deploy of a highly available Spark cluster.
+
 requires: a private space with dns-discovery enabled, *NOTE* dont use the button if you have a non dns-discovery space, it will absolutely not work.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
@@ -31,6 +33,11 @@ you can view the spark master by:
 heroku open -a $app
 ```
 
+to add more worker nodes to your spark cluster, simply scale the worker processes.
+
+```
+heroku scale worker=5 -a $app
+```
 
 ### viewing spark ui
 
