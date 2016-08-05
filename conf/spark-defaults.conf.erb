@@ -1,14 +1,14 @@
 spark.executor.memory=12g
 spark.driver.memory=2g
-<% if ENV["SPARK_BUCKET_NAME"] %>
+<% if ENV["SPARK_S3_BUCKET_NAME"] %>
 spark.executor.extraClassPath=/app/spark-home/lib/hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
 spark.driver.extraClassPath=/app/spark-home/lib/hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
 spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
 spark.hadoop.fs.AbstractFileSystem.s3a.impl=org.apache.hadoop.fs.s3a.S3A
-spark.hadoop.fs.defaultFS=s3a://<%= ENV["SPARK_BUCKET_NAME"] %>
-spark.hadoop.fs.default.name=s3a://<%= ENV["SPARK_BUCKET_NAME"] %>
-spark.hadoop.fs.s3a.awsAccessKeyId=<%= ENV["SPARK_AWS_ACCESS_KEY_ID"] %>
-spark.hadoop.fs.s3a.awsSecretAccessKey=<%= ENV["SPARK_AWS_SECRET_ACCESS_KEY"] %>
-spark.hadoop.fs.s3a.access.key=<%= ENV["SPARK_AWS_ACCESS_KEY_ID"] %>
-spark.hadoop.fs.s3a.secret.key=<%= ENV["SPARK_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.defaultFS=s3a://<%= ENV["SPARK_S3_BUCKET_NAME"] %>
+spark.hadoop.fs.default.name=s3a://<%= ENV["SPARK_S3_BUCKET_NAME"] %>
+spark.hadoop.fs.s3a.awsAccessKeyId=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3a.awsSecretAccessKey=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3a.access.key=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3a.secret.key=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
 <% end %>
