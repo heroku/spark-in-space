@@ -58,29 +58,10 @@ you will be redirected to the root web ui of the backend you have selected.
 You will see proxied version of the spark master UI. You can hit the `/set-backend` path with other in-space hostname:port combos
 to be able to see workers and driver program ui.
 
-### HA Spark Masters
+### Logging
 
-High availability spark masters are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
-
-If there is a `KAFKA_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
-
-To add this addon do the following:
-
-```
-app=<your app name>
-heroku addons:create heroku-kafka -a $app
-heroku kafka:wait -a $app
-```
-
-Once the kafka is available, you can tail the logs and watch the master come back up and the workers connect to it.
-
-If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers, spark-submit and spark-shell will use spark master urls that point at
-the number of masters you specify.
- 
-For example, If you want 3 masters, you should `heroku scale master=3 -a $app`, then `heroku config:set SPARK_MASTERS=3 -a $app`, and the master url will be
-
-`spark://1.master.$app.app.localspace:7077,2.master.$app.app.localspace:7077,3.master.$app.app.localspace:7077`
-
+The `LOG_LEVEL` environment variable controls the log4j log level for spark, it defaults to INFO, but you may set it to any 
+valid level.
 
 ### S3 HDFS
 
@@ -109,11 +90,36 @@ ints.saveAsObjectFile(file)
 :q
 
 ./bin/spark-shell
-val bucket = sys.env("SPARK_BUCKET_NAME")
+v
+
+al bucket = sys.env("SPARK_BUCKET_NAME")
 val file = s"s3a://$bucket/test-object-file"
 val theInts = sc.objectFile[Int](file)
 theInts.reduce(_ + _)
 ### lots of spark output
 res0: Int = -2004260032
 ```
+
+### HA Spark Masters
+
+High availability spark masters are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
+
+If there is a `KAFKA_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
+
+To add this addon do the following:
+
+```
+app=<your app name>
+heroku addons:create heroku-kafka -a $app
+heroku kafka:wait -a $app
+```
+
+Once the kafka is available, you can tail the logs and watch the master come back up and the workers connect to it.
+
+If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers, spark-submit and spark-shell will use spark master urls that point at
+the number of masters you specify.
+ 
+For example, If you want 3 masters, you should `heroku scale master=3 -a $app`, then `heroku config:set SPARK_MASTERS=3 -a $app`, and the master url will be
+
+`spark://1.master.$app.app.localspace:7077,2.master.$app.app.localspace:7077,3.master.$app.app.localspace:7077`
 
