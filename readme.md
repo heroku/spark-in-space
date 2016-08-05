@@ -8,7 +8,7 @@ If you use this cluster for real work, please protect it by adding a domain and 
 
 You should probably right-click 'open link in new window' on the button so you can follow the readme here. As long as this repo is private you will need to oauth your github account to the heroku dashboard.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space/tree/button)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku/spark-in-space)
 
 Note: The rest of this readme assumes you have set your app name as `$app` in your shell, like so `app=my-spark-cluster`.
 
