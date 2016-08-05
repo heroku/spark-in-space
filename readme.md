@@ -100,7 +100,7 @@ val file = s"s3a://$bucket/test-object-file"
 val theInts = sc.objectFile[Int](file)
 theInts.reduce(_ + _)
 ### lots of spark output
-res0: Int = -2004260032
+res0: Int = 50005000
 ```
 
 ### HA Spark Masters

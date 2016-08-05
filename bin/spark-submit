@@ -5,4 +5,4 @@
 erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
 erb /app/conf/log4j.properties.erb > /app/spark-home/conf/log4j.properties
 
-exec /app/spark-home/bin/spark-shell --master $(/app/bin/master-url) "$@"
+exec /app/spark-home/bin/spark-submit --master $(/app/bin/master-url) "$@"
