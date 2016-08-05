@@ -1,0 +1,33 @@
+<html>
+<head>
+    <script type="text/JavaScript">
+        <!--
+        redirectTime = "3000";
+        redirectURL = "/";
+        function timedRedirect() {
+            backend = getCookie("backend")
+            document.getElementById("content").innerHTML = "Set backend to " + backend + " redirecting in 3 seconds";
+            setTimeout("location.href = redirectURL;",redirectTime);
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length,c.length);
+                }
+            }
+            return "";
+        }
+        //   -->
+    </script>
+</head>
+<body onload="timedRedirect()">
+<div id="content"></div>
+</body>
+</html>

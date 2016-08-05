@@ -8,5 +8,6 @@ export RESOLVER=$(cat /etc/resolv.conf |grep -i nameserver|head -n1|cut -d ' ' -
 erb /app/conf/nginx.conf.erb > /app/nginx/conf/nginx.conf
 erb /app/conf/htpasswd.erb > /app/nginx/conf/htpasswd
 cp /app/conf/mime.types /app/nginx/conf/mime.types
+cp /app/conf/set-backend.html /app/nginx/conf/set-backend.html
 echo "at=start-nginx"
 exec /app/nginx/bin/nginx -p /app/nginx -c /app/nginx/conf/nginx.conf

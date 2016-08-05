@@ -50,7 +50,6 @@ echo " Done."
 
 echo -n "-----> Configuring Spark..."
 rm -rf $build_dir/spark-home/lib/spark-examples-1.6.1-hadoop2.6.0.jar
-mv $bp_dir/conf/log4j.properties $build_dir/spark-home/conf
 mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
 echo " Done."
 

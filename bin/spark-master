@@ -3,5 +3,6 @@
 # generate spark-defaults.conf and start a spark master node
 
 erb /app/conf/spark-defaults.conf.erb > /app/spark-home/conf/spark-defaults.conf
+erb /app/conf/log4j.properties.erb > /app/spark-home/conf/log4j.properties
 
 /app/spark-home/bin/spark-class org.apache.spark.deploy.master.Master
