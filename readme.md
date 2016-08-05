@@ -17,9 +17,20 @@ heroku logs -t -a $app
 once you see the master online and the workers registered, you can verify the workers do work by:
 
 ```
-heroku run console.1 bin/spark-shell -a $apps
+heroku run bin/spark-shell -a $app
 sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
+
+Note that this will take about 2 minutes to start up. If you ask a herokai to enable the `dyno-run-inside` feature on your app, 
+you can then scale up a console process and use run:inside to get instant consoles.
+
+```
+heroku scale console=1 -a $app
+# wait for console.1 to be up
+heroku run:inside console.1 bin/spark-shell -a $app
+sc.parallelize(1 to 1000000).reduce(_ + _)
+```
+
 
 you can view the spark master by running the command below. The default basic auth credentials are `spark:space`, and can be changed
 by updating the `SPARK_BASIC_AUTH` config var, which by default is set to nginx PLAIN format, `spark:{PLAIN}space`

@@ -11,6 +11,10 @@
     "SPARK_BASIC_AUTH": {
       "description": "nginx basic auth",
       "value": "spark:{PLAIN}space"
+    },
+    "LOG_LEVEL": {
+      "description": "log4j log level for spark",
+      "value":  "INFO"
     }
   },
   "formation": {
@@ -21,10 +25,6 @@
     "worker": {
       "quantity": 2,
       "size": "Private-L"
-    },
-    "console": {
-      "quantity": 1,
-      "size": "Private-M"
     },
     "web": {
       "quantity": 1,
