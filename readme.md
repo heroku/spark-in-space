@@ -37,7 +37,7 @@ sc.parallelize(1 to 1000000).reduce(_ + _)
 
 
 you can view the spark master by running the command below. The default basic auth credentials are `spark:space`, and can be changed
-by updating the `SPARK_BASIC_AUTH` config var, which by default is set to nginx PLAIN format, `spark:{PLAIN}space`
+by updating the `SPACE_PROXY_BASIC_AUTH` config var, which by default is set to nginx PLAIN format, `spark:{PLAIN}space`
 
 ```
 heroku open -a $app
