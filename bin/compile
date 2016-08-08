@@ -26,28 +26,34 @@ fetch_spark_tarball() {
     fi
 }
 
+start() {
+  echo -n "-----> $@..."
+}
 
-echo -n "-----> Installing Spark..."
+finish() {
+  echo " Done."
+}
+
+
+start Installing Spark
 $(fetch_spark_tarball) | tar xzC $build_dir
 mv $build_dir/spark-1.6.1-bin-hadoop2.6 $build_dir/spark-home
-echo " Done."
+finish Installing Spark
 
 
-echo -n "-----> Configuring Spark..."
+start Configuring Spark
 rm -rf $build_dir/spark-home/lib/spark-examples-1.6.1-hadoop2.6.0.jar
 mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
-echo " Done."
+finish Configuring Spark
 
-echo -n "-----> Installing s3a:// HDFS Support..."
+start Installing s3a:// HDFS Support
 curl -s -O https://s3.amazonaws.com/heroku-spark/libhadoop.so.1.0.0
 curl -s -O https://s3.amazonaws.com/heroku-spark/libhdfs.so.0.0.0
 curl -s -O https://s3.amazonaws.com/heroku-spark/hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
 mv libhadoop.so.1.0.0 spark-home/lib/libhadoop.so
 mv libhdfs.so.0.0.0 spark-home/lib/libhdfs.so
 mv hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar spark-home/lib
-
-echo " Done."
-
+finish Installing s3a:// HDFS Support
 
 
 
