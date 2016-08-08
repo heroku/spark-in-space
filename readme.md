@@ -36,12 +36,19 @@ sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
 
 
-you can view the spark master by running the command below. The default basic auth credentials are `spark:space`, and can be changed
-by updating the `SPACE_PROXY_BASIC_AUTH` config var, which by default is set to nginx PLAIN format, `spark:{PLAIN}space`
+ou can view the spark master by running the `heroku open -a $app` command, assuming you set the `SPACE_PROXY_DEFAULT_BACKEND` to `1.master.$app.app.localspace:8080` 
+when creating the app.  If not, or to change it you can run
 
 ```
+heroku config:set SPACE_PROXY_DEFAULT_BACKEND=1.master.$app.app.localspace:8080 -a app
+heroku logs -t -a $app
+#wait for master to restart
 heroku open -a $app
 ```
+
+The default basic auth credentials are `spark:space`, and can be changed
+by updating the `SPACE_PROXY_BASIC_AUTH` config var, which by default is set to nginx PLAIN format, `spark:{PLAIN}space`
+
 
 to add more worker nodes to your spark cluster, simply scale the worker processes.
 
