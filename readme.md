@@ -132,3 +132,8 @@ For example, If you want 3 masters, you should `heroku scale master=3 -a $app`, 
 
 `spark://1.master.$app.app.localspace:7077,2.master.$app.app.localspace:7077,3.master.$app.app.localspace:7077`
 
+### Spark Versions
+
+This repo, when used as a buildpack, can support either spark 1.6.1 for hadoop 2.6 or spark 2.0.0 for hadoop 2.7.
+
+It defaults to spark 1.6.1 for hadoop 2.6. if you want to use spark 2.0.0 for hadoop 2.7, place a file named `.spark.version` in the root of your project, containing the text `2.0.0`

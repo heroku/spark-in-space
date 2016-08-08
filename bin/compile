@@ -11,18 +11,34 @@ bp_dir=$(dirname $(dirname $0))
 
 cd $build_dir
 
+spark_version=1.6.1
+hadoop_version=2.6
+hadoop_aws_shade=hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
+
+if [ -e "$build_dir/.spark.version"]; then
+    spark_version=$(cat "$build_dir/.spark.version" | xargs)
+    echo "Detected spark version: ${spark_version} configured in .spark.version"
+    if [ "$spark_version" -eq "2.0.0" ]; then
+      hadoop_version=2.7
+      hadoop_aws_shade=hadoop-aws-shaded-no-jackson-0.2-hadoop-2.7-SNAPSHOT-shaded.jar
+    elif [ "$spark_version" -eq "1.6.1" ]; then
+      hadoop_version=2.6
+    else
+      echo "Only 1.6.1 or 2.0.0 are currently supported as .spark.version, exiting."
+      exit 1
+    end
+end
+
 fetch_spark_tarball() {
-    local version="1.6.1"
-    local hadoop="2.6"
-    local tarball_file="spark-$version-bin-hadoop$hadoop.tgz"
+    local tarball_file="spark-${spark_version}-bin-hadoop${hadoop_version}.tgz"
     local stack="cedar-14"
-    local spark_tarball_url="https://s3-external-1.amazonaws.com/heroku-spark/spark-$version-bin-hadoop$hadoop.tgz"
+    local spark_tarball_url="https://s3-external-1.amazonaws.com/heroku-spark/spark-${spark_version}-bin-hadoop${hadoop_version}.tgz"
     local dest_path="$cache_dir/$stack/$tarball_file"
 
     if [ -f "$dest_path" ]; then
         echo -n "cat $dest_path"
     else
-        echo -n "curl -s -L $spark_tarball_url"
+        echo -n "curl -s -L $spark_tarball_url > $dest_path && cat $dest_path"
     fi
 }
 
@@ -37,22 +53,20 @@ finish() {
 
 start Installing Spark
 $(fetch_spark_tarball) | tar xzC $build_dir
-mv $build_dir/spark-1.6.1-bin-hadoop2.6 $build_dir/spark-home
+mv $build_dir/spark-$spark_version-bin-hadoop$hadoop_version $build_dir/spark-home
 finish Installing Spark
 
 
 start Configuring Spark
-rm -rf $build_dir/spark-home/lib/spark-examples-1.6.1-hadoop2.6.0.jar
+rm -rf $build_dir/spark-home/lib/spark-examples-*
+rm -rf $build_dir/spark-home/yarn
 mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
 finish Configuring Spark
 
 start Installing s3a:// HDFS Support
-curl -s -O https://s3.amazonaws.com/heroku-spark/libhadoop.so.1.0.0
-curl -s -O https://s3.amazonaws.com/heroku-spark/libhdfs.so.0.0.0
-curl -s -O https://s3.amazonaws.com/heroku-spark/hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
-mv libhadoop.so.1.0.0 spark-home/lib/libhadoop.so
-mv libhdfs.so.0.0.0 spark-home/lib/libhdfs.so
-mv hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar spark-home/lib
+curl -s -L https://s3.amazonaws.com/heroku-spark/libhadoop.so.1.0.0 > $build_dir/spark-home/lib/libhadoop.so
+curl -s -L https://s3.amazonaws.com/heroku-spark/libhdfs.so.0.0.0 > $build_dir/spark-home/lib/libhdfs.so
+curl -s -L https://s3.amazonaws.com/heroku-spark/$hadoop_aws_shade > $build_dir/spark-home/lib/hadoop-aws-shaded.jar
 finish Installing s3a:// HDFS Support
 
 
