@@ -116,10 +116,10 @@ $kafka=your-kafka-addon-name
 heroku addons:attach $kafka -a $app --as SPARK_ZK
 ```
 
-if you do not you can add a heroku-kafka addon `--as SPARK_ZK`
+if you do not you can add a heroku-kafka addon `--as SPARK_ZK`, Note that you need to make the zookeeper visible by using the `--enable-zookeeper` flag.
 
 ```
-heroku addons:create heroku-kafka -a $app --as SPARK_ZK
+heroku addons:create heroku-kafka -a $app --as SPARK_ZK --enable-zookeeper
 heroku kafka:wait -a $app
 ```
 
