@@ -12,6 +12,10 @@
       "description": "nginx basic auth",
       "value": "spark:{PLAIN}space"
     },
+    "SPACE_PROXY_DEFAULT_BACKEND": {
+      "description": "default dyno and port to proxy to, usually 1.master.$app.app.localspace:8080",
+      "required": false
+    },
     "LOG_LEVEL": {
       "description": "log4j log level for spark",
       "value":  "INFO"
