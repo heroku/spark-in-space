@@ -8,7 +8,7 @@
   ],
   "repository": "https://github.com/heroku/spark-in-space",
   "env": {
-    "SPARK_BASIC_AUTH": {
+    "SPACE_PROXY_BASIC_AUTH": {
       "description": "nginx basic auth",
       "value": "spark:{PLAIN}space"
     },
@@ -40,10 +40,13 @@
   ],
   "buildpacks": [
     {
-      "url": "http://github.com/kr/heroku-buildpack-inline.git"
+      "url": "http://github.com/heroku/heroku-buildpack-space-proxy.git"
     },
     {
       "url": "http://github.com/heroku/heroku-buildpack-jvm-common.git"
+    },
+    {
+      "url": "http://github.com/kr/heroku-buildpack-inline.git"
     }
   ]
 }
