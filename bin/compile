@@ -9,25 +9,39 @@ cache_dir=$2
 env_dir=$3
 bp_dir=$(dirname $(dirname $0))
 
+notice() {
+  echo "-----> $@..."
+}
+
+start() {
+  echo -n "-----> $@..."
+}
+
+finish() {
+  echo " Done."
+}
+
 cd $build_dir
 
 spark_version=1.6.1
 hadoop_version=2.6
 hadoop_aws_shade=hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
 
-if [ -e "$build_dir/.spark.version"]; then
+if [ -f "$build_dir/.spark.version" ]; then
     spark_version=$(cat "$build_dir/.spark.version" | xargs)
-    echo "Detected spark version: ${spark_version} configured in .spark.version"
-    if [ "$spark_version" -eq "2.0.0" ]; then
+    notice "Detected spark version: ${spark_version} configured in .spark.version"
+    if [ "$spark_version" == "2.0.0" ]; then
       hadoop_version=2.7
       hadoop_aws_shade=hadoop-aws-shaded-no-jackson-0.2-hadoop-2.7-SNAPSHOT-shaded.jar
-    elif [ "$spark_version" -eq "1.6.1" ]; then
+    elif [ "$spark_version" == "1.6.1" ]; then
       hadoop_version=2.6
     else
-      echo "Only 1.6.1 or 2.0.0 are currently supported as .spark.version, exiting."
+      notice "Only 1.6.1 or 2.0.0 are currently supported as .spark.version, exiting."
       exit 1
-    end
-end
+    fi
+else
+  notice "Defaulting to Spark 1.6.1 for Hadoop 2.6"
+fi
 
 fetch_spark_tarball() {
     local tarball_file="spark-${spark_version}-bin-hadoop${hadoop_version}.tgz"
@@ -41,15 +55,6 @@ fetch_spark_tarball() {
         echo -n "curl -s -L $spark_tarball_url > $dest_path && cat $dest_path"
     fi
 }
-
-start() {
-  echo -n "-----> $@..."
-}
-
-finish() {
-  echo " Done."
-}
-
 
 start Installing Spark
 $(fetch_spark_tarball) | tar xzC $build_dir
