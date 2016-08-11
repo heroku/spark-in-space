@@ -1,6 +1,6 @@
 ### spark-in-space 
 
-Heroku Button deploy of an (optionally highly available) Spark cluster.
+Heroku Button deploy of an Apache Spark cluster.
 
 requires: a private space with dns-discovery enabled, *NOTE* dont use the button if you have a non dns-discovery space, it will absolutely not work.
 
