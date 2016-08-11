@@ -11,4 +11,10 @@ spark.hadoop.fs.s3a.awsAccessKeyId=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
 spark.hadoop.fs.s3a.awsSecretAccessKey=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
 spark.hadoop.fs.s3a.access.key=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
 spark.hadoop.fs.s3a.secret.key=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3n.impl=org.apache.hadoop.fs.s3native.NativeS3FileSystem
+spark.hadoop.fs.s3n.awsAccessKeyId=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3n.awsSecretAccessKey=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3n.access.key=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3n.secret.key=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3n.multipart.uploads.block.size=536870912
 <% end %>

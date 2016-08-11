@@ -83,7 +83,7 @@ This is provided by the button deploy.
 
 If you do this, bucketeer will set `SPARK_S3_BUCKET_NAME`, `SPARK_S3_AWS_ACCESS_KEY_ID`, `SPARK_S3_AWS_SECRET_ACCESS_KEY` config vars.
 
-This will be detected and cause the writing of proper defaults to spark-defaults.conf. You can then use s3a:// urls in spark.
+This will be detected and cause the writing of proper defaults to spark-defaults.conf. You can then use s3n:// or s3a:// urls in spark.
 
 If you are deploying this app manually or dont need S3 HDFS, you can skip or remove the bucketeer adddon and the spark cluster should still function, just without S3 access.
 
