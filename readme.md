@@ -110,27 +110,7 @@ theInts.reduce(_ + _)
 res0: Int = 50005000
 ```
 
-### HA Spark Masters
-
-High availability spark masters are accomplished by adding a heroku kafka addon, and utilizing the zookeeper server available in the addon.
-
-If there is a `SPARK_ZK_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
-
-If you have an existing heroku-kafka addon you can attach it using `--as SPARK_ZK`. 
-
-```
-$kafka=your-kafka-addon-name
-heroku addons:attach $kafka -a $app --as SPARK_ZK
-```
-
-if you do not you can add a heroku-kafka addon `--as SPARK_ZK`, Note that you need to make the zookeeper visible by using the `--enable-zookeeper` flag.
-
-```
-heroku addons:create heroku-kafka -a $app --as SPARK_ZK --enable-zookeeper
-heroku kafka:wait -a $app
-```
-
-Once the kafka is available, you can tail the logs and watch the master come back up and the workers connect to it.
+### Multiple and HA Spark Masters
 
 If you set the `SPARK_MASTERS` config var to a number greater than 1, then workers, spark-submit and spark-shell will use spark master urls that point at
 the number of masters you specify.
@@ -138,6 +118,12 @@ the number of masters you specify.
 For example, If you want 3 masters, you should `heroku scale master=3 -a $app`, then `heroku config:set SPARK_MASTERS=3 -a $app`, and the master url will be
 
 `spark://1.master.$app.app.localspace:7077,2.master.$app.app.localspace:7077,3.master.$app.app.localspace:7077`
+
+High availability spark masters require zookeeper.
+
+If there is a `SPARK_ZK_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
+
+the `SPARK_ZK_ZOOKEEPER_URL` should be of the following form for a 3 node cluster `zookeeper://10.1.1.1:2181,zookeeper://10.1.1.2:2181,zookeeper://10.1.1.3:2181`
 
 ### Spark Versions
 
