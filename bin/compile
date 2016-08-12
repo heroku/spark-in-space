@@ -70,7 +70,7 @@ rm -rf $build_dir/spark-home/yarn
 mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
 finish Configuring Spark
 
-start Installing s3a:// HDFS Support
+start Installing s3n:// and s3a:// HDFS Support
 mkdir -p $build_dir/spark-home/lib
 curl -s -L https://s3.amazonaws.com/heroku-spark/libhadoop.so.1.0.0 > $build_dir/spark-home/lib/libhadoop.so
 curl -s -L https://s3.amazonaws.com/heroku-spark/libhdfs.so.0.0.0 > $build_dir/spark-home/lib/libhdfs.so
