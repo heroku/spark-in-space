@@ -71,6 +71,8 @@ start Configuring Spark
 rm -rf $build_dir/spark-home/lib/spark-examples-*
 rm -rf $build_dir/spark-home/yarn
 mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
+mv $bp_dir/conf/log4j.properties.erb $build_dir/conf/
+mv $bp_dir/conf/spark-defaults.conf.erb $build_dir/conf/
 finish Configuring Spark
 
 start Installing s3n:// and s3a:// HDFS Support
