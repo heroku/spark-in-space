@@ -63,6 +63,7 @@ fetch_spark_tarball() {
 start Installing Spark
 $(fetch_spark_tarball) | tar xzC $build_dir
 mv $build_dir/spark-$spark_version-bin-hadoop$hadoop_version $build_dir/spark-home
+cp $bp_dir/bin/spark-* $bp_dir/bin/master-url $build_dir/bin/
 finish Installing Spark
 
 
