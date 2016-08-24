@@ -127,6 +127,10 @@ the `SPARK_ZK_ZOOKEEPER_URL` should be of the following form for a 3 node cluste
 
 ### Spark Versions
 
-This repo, when used as a buildpack, can support either spark 1.6.1 for hadoop 2.6 or spark 2.0.0 for hadoop 2.7.
+This repo, when used as a buildpack, can support:
 
-It defaults to spark 1.6.1 for hadoop 2.6. if you want to use spark 2.0.0 for hadoop 2.7, place a file named `.spark.version` in the root of your project, containing the text `2.0.0`
+* Spark 1.4.1 for Hadoop 2.6
+* Spark 1.6.1 for Hadoop 2.6 (default)
+* Spark 2.0.0 for hadoop 2.7
+
+To use a specific version, place a file named `.spark.version` in the root of your project, containing the Spark version number, e.g. `1.4.1` or `2.0.0`.
