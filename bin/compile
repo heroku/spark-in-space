@@ -60,19 +60,35 @@ fetch_spark_tarball() {
     fi
 }
 
+cautious_copy() {
+  local source_file=$1
+  local dest_file=$2
+  if [ -f "${dest_file}" ]
+  then
+    echo "-----> Skipping copy, destination exists: ${dest_file}"
+  else
+    echo "-----> Copying into build: ${source_file}"
+    cp $source_file $dest_file
+  fi
+}
+
 start Installing Spark
 $(fetch_spark_tarball) | tar xzC $build_dir
 mv $build_dir/spark-$spark_version-bin-hadoop$hadoop_version $build_dir/spark-home
-cp $bp_dir/bin/spark-* $bp_dir/bin/master-url $build_dir/bin/
+cautious_copy $bp_dir/bin/master-url   $build_dir/bin/master-url
+cautious_copy $bp_dir/bin/spark-master $build_dir/bin/spark-master
+cautious_copy $bp_dir/bin/spark-shell  $build_dir/bin/spark-shell
+cautious_copy $bp_dir/bin/spark-submit $build_dir/bin/spark-submit
+cautious_copy $bp_dir/bin/spark-worker $build_dir/bin/spark-worker
 finish Installing Spark
 
 
 start Configuring Spark
 rm -rf $build_dir/spark-home/lib/spark-examples-*
 rm -rf $build_dir/spark-home/yarn
-mv $bp_dir/conf/spark-env.sh $build_dir/spark-home/conf
-mv $bp_dir/conf/log4j.properties.erb $build_dir/conf/
-mv $bp_dir/conf/spark-defaults.conf.erb $build_dir/conf/
+cautious_copy $bp_dir/conf/spark-env.sh            $build_dir/conf/spark-env.sh
+cautious_copy $bp_dir/conf/log4j.properties.erb    $build_dir/conf/log4j.properties.erb
+cautious_copy $bp_dir/conf/spark-defaults.conf.erb $build_dir/conf/spark-defaults.conf.erb
 finish Configuring Spark
 
 start Installing s3n:// and s3a:// HDFS Support
