@@ -62,16 +62,19 @@ fetch_spark_tarball() {
 
 # Copy a file from the buildpack to the same relative location in the
 # build directory, unless it already exists.
+# Optional second arg is the namespace/prefix to contain the target within the base.
 cautious_build_overlay() {
   local target=$1
+  local dest_namespace="${2-}"
   local source_base=$bp_dir
-  local dest_base=$build_dir/spark-home
-  if [ -f "${dest_base}/${target}" ]
+  local dest_base=$build_dir
+  if [ -f "${dest_base}/${dest_namespace}${target}" ]
   then
     echo "-----> Skipping copy, already exists in build: ${target}"
   else
     echo "-----> Copying into build: ${target}"
-    cp "${source_base}/${target}" "${dest_base}/${target}"
+    mkdir -p "${dest_base}/${dest_namespace}"
+    cp "${source_base}/${target}" "${dest_base}/${dest_namespace}${target}"
   fi
 }
 
@@ -89,7 +92,7 @@ finish Installing Spark
 notice Configuring Spark
 rm -rf $build_dir/spark-home/lib/spark-examples-*
 rm -rf $build_dir/spark-home/yarn
-cautious_build_overlay conf/spark-env.sh
+cautious_build_overlay conf/spark-env.sh spark-home/
 cautious_build_overlay conf/log4j.properties.erb
 cautious_build_overlay conf/spark-defaults.conf.erb
 finish Configuring Spark
