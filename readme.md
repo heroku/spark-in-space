@@ -56,6 +56,11 @@ to add more worker nodes to your spark cluster, simply scale the worker processe
 heroku scale worker=5 -a $app
 ```
 
+to change the memory allocated to Spark, set the config vars:
+
+* `SPARK_EXECUTOR_MEMORY`: default **12g**; see [Application Properties](https://spark.apache.org/docs/1.6.1/configuration.html#application-properties)
+* `SPARK_DRIVER_MEMORY`: default **2g**; see [Application Properties](https://spark.apache.org/docs/1.6.1/configuration.html#application-properties)
+
 ### viewing spark ui
 
 there is an nginx server that can proxy to any dyno in the space. The server will default you to proxying to the master.1 spark process.

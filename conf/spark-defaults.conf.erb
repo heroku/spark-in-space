@@ -1,5 +1,5 @@
-spark.executor.memory=12g
-spark.driver.memory=2g
+spark.executor.memory=<%= ENV["SPARK_EXECUTOR_MEMORY"] || '12g' %>
+spark.driver.memory=<%= ENV["SPARK_DRIVER_MEMORY"] || '2g' %>
 spark.executor.extraClassPath=/app/spark-home/lib/hadoop-aws-shaded.jar:/app/spark-home/lib/hadoop-lzo.jar
 spark.driver.extraClassPath=/app/spark-home/lib/hadoop-aws-shaded.jar:/app/spark-home/lib/hadoop-lzo.jar
 spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
