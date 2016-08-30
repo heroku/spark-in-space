@@ -65,7 +65,7 @@ fetch_spark_tarball() {
 cautious_build_overlay() {
   local target=$1
   local source_base=$bp_dir
-  local dest_base=$build_dir
+  local dest_base=$build_dir/spark-home
   if [ -f "${dest_base}/${target}" ]
   then
     echo "-----> Skipping copy, already exists in build: ${target}"
