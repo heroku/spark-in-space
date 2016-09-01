@@ -81,6 +81,7 @@ cautious_build_overlay() {
 notice Installing Spark
 $(fetch_spark_tarball) | tar xzC $build_dir
 mv $build_dir/spark-$spark_version-bin-hadoop$hadoop_version $build_dir/spark-home
+mkdir -p $build_dir/bin
 cautious_build_overlay bin/master-url
 cautious_build_overlay bin/spark-master
 cautious_build_overlay bin/spark-shell
@@ -92,7 +93,9 @@ finish Installing Spark
 notice Configuring Spark
 rm -rf $build_dir/spark-home/lib/spark-examples-*
 rm -rf $build_dir/spark-home/yarn
+mkdir -p $build_dir/spark-home/conf
 cautious_build_overlay conf/spark-env.sh spark-home/
+mkdir -p $build_dir/conf
 cautious_build_overlay conf/log4j.properties.erb
 cautious_build_overlay conf/spark-defaults.conf.erb
 finish Configuring Spark
