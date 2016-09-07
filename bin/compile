@@ -112,7 +112,7 @@ curl -s -L https://s3.amazonaws.com/heroku-spark/twitter-hadoop-lzo/hadoop-lzo-0
 finish Installing s3a:// HDFS Support
 
 start Installing PostgreSQL Support
-curl -s -L http://marsikai.s3.amazonaws.com/$postgresql_driver > $build_dir/spark-home/lib/$postgresql_driver
+curl -s -L http://marsikai.s3.amazonaws.com/$postgresql_driver > $build_dir/spark-home/lib/postgresql_jdbc.jar
 finish Installing PostgreSQL Support
 
 
