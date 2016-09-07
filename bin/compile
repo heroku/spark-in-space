@@ -28,6 +28,7 @@ hadoop_version=2.6
 hadoop_aws_shade_27=hadoop-aws-shaded-no-jackson-0.2-hadoop-2.7-SNAPSHOT-shaded.jar
 hadoop_aws_shade_26=hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
 hadoop_aws_shade=$hadoop_aws_shade_26
+postgresql_driver=postgresql-9.4.1209.jar
 
 if [ -f "$build_dir/.spark.version" ]; then
     spark_version=$(cat "$build_dir/.spark.version" | xargs)
@@ -109,6 +110,10 @@ curl -s -L https://s3.amazonaws.com/heroku-spark/twitter-hadoop-lzo/liblzo2.so.2
 curl -s -L https://s3.amazonaws.com/heroku-spark/twitter-hadoop-lzo/libgplcompression.so.0.0.0 > $build_dir/spark-home/lib/libgplcompression.so
 curl -s -L https://s3.amazonaws.com/heroku-spark/twitter-hadoop-lzo/hadoop-lzo-0.4.20-SNAPSHOT.jar > $build_dir/spark-home/lib/hadoop-lzo.jar
 finish Installing s3a:// HDFS Support
+
+start Installing PostgreSQL Support
+curl -s -L http://marsikai.s3.amazonaws.com/$postgresql_driver > $build_dir/spark-home/lib/$postgresql_driver
+finish Installing PostgreSQL Support
 
 
 
