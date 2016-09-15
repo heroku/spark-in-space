@@ -26,7 +26,7 @@ cd $build_dir
 spark_version=1.6.1
 hadoop_version=2.6
 hadoop_aws_shade_27=hadoop-aws-shaded-no-jackson-0.2-hadoop-2.7-SNAPSHOT-shaded.jar
-hadoop_aws_shade_26=hadoop-aws-shaded-no-jackson-0.1-SNAPSHOT-shaded.jar
+hadoop_aws_shade_26=hadoop-aws-shaded-stock-no-jackson-0.1-SNAPSHOT-shaded.jar
 hadoop_aws_shade=$hadoop_aws_shade_26
 
 if [ -f "$build_dir/.spark.version" ]; then
