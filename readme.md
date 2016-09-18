@@ -56,10 +56,19 @@ to add more worker nodes to your spark cluster, simply scale the worker processe
 heroku scale worker=5 -a $app
 ```
 
+to make use of more worker nodes by default, set the config var:
+
+* `SPARK_DEFAULT_CORES`: default **4**; see [Resource Scheduling](http://spark.apache.org/docs/1.6.1/spark-standalone.html#resource-scheduling)
+
 to change the memory allocated to Spark, set the config vars:
 
 * `SPARK_EXECUTOR_MEMORY`: default **12g**; see [Application Properties](https://spark.apache.org/docs/1.6.1/configuration.html#application-properties)
 * `SPARK_DRIVER_MEMORY`: default **2g**; see [Application Properties](https://spark.apache.org/docs/1.6.1/configuration.html#application-properties)
+
+individual jobs may be tuned for memory & core utilization with [`spark-submit` options](http://spark.apache.org/docs/1.6.1/submitting-applications.html#launching-applications-with-spark-submit), examples:
+
+* `--executor-memory 4G`
+* `--total-executor-cores 16`
 
 ### viewing spark ui
 
@@ -136,6 +145,6 @@ This repo, when used as a buildpack, can support:
 
 * Spark 1.4.1 for Hadoop 2.6
 * Spark 1.6.1 for Hadoop 2.6 (default)
-* Spark 2.0.0 for hadoop 2.7
+* Spark 2.0.0 for Hadoop 2.7
 
 To use a specific version, place a file named `.spark.version` in the root of your project, containing the Spark version number, e.g. `1.4.1` or `2.0.0`.
