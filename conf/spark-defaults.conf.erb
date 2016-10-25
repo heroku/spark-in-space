@@ -10,13 +10,13 @@ spark.hadoop.fs.s3n.multipart.uploads.block.size=536870912
 spark.hadoop.io.compression.codecs=org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,com.hadoop.compression.lzo.LzoCodec,com.hadoop.compression.lzo.LzopCodec
 spark.hadoop.io.compression.codec.lzo.class=com.hadoop.compression.lzo.LzoCodec
 
-<% if ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] && ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
-spark.hadoop.fs.s3a.awsAccessKeyId=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
-spark.hadoop.fs.s3a.awsSecretAccessKey=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
-spark.hadoop.fs.s3a.access.key=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
-spark.hadoop.fs.s3a.secret.key=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
-spark.hadoop.fs.s3n.awsAccessKeyId=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
-spark.hadoop.fs.s3n.awsSecretAccessKey=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
-spark.hadoop.fs.s3n.access.key=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
-spark.hadoop.fs.s3n.secret.key=<%= ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
+<% if ENV["PIO_S3_AWS_ACCESS_KEY_ID"] && ENV["PIO_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3a.awsAccessKeyId=<%= ENV["PIO_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3a.awsSecretAccessKey=<%= ENV["PIO_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3a.access.key=<%= ENV["PIO_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3a.secret.key=<%= ENV["PIO_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3n.awsAccessKeyId=<%= ENV["PIO_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3n.awsSecretAccessKey=<%= ENV["PIO_S3_AWS_SECRET_ACCESS_KEY"] %>
+spark.hadoop.fs.s3n.access.key=<%= ENV["PIO_S3_AWS_ACCESS_KEY_ID"] %>
+spark.hadoop.fs.s3n.secret.key=<%= ENV["PIO_S3_AWS_SECRET_ACCESS_KEY"] %>
 <% end %>
