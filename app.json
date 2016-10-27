@@ -16,6 +16,10 @@
       "description": "default dyno and port to proxy to, usually 1.master.$app.app.localspace:8080",
       "required": false
     },
+    "SPACE_REVERSE_PROXY_URL": {
+      "description": "fully qualified URL for Spark Master UI; may be custom domain name; example: `https://spark.example.com` or `http://$app.herokuapp.com`",
+      "required": false
+    },
     "LOG_LEVEL": {
       "description": "log4j log level for spark",
       "value":  "INFO"

@@ -36,11 +36,13 @@ sc.parallelize(1 to 1000000).reduce(_ + _)
 ```
 
 
-ou can view the spark master by running the `heroku open -a $app` command, assuming you set the `SPACE_PROXY_DEFAULT_BACKEND` to `1.master.$app.app.localspace:8080` 
-when creating the app.  If not, or to change it you can run
+With the right config setup, you can view the Spark UI by running the `heroku open -a $app` command. When creating the app or to change it set both `SPACE_PROXY_DEFAULT_BACKEND` & `SPARK_REVERSE_PROXY_URL`:
 
 ```
-heroku config:set SPACE_PROXY_DEFAULT_BACKEND=1.master.$app.app.localspace:8080 -a app
+heroku config:set \
+  SPACE_PROXY_DEFAULT_BACKEND=1.master.$app.app.localspace:8080 \
+  SPARK_REVERSE_PROXY_URL=http://$app.herokuapp.com \
+  -a $app
 heroku logs -t -a $app
 #wait for master to restart
 heroku open -a $app
