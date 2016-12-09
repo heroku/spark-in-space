@@ -9,6 +9,7 @@ spark.hadoop.fs.s3n.impl=org.apache.hadoop.fs.s3native.NativeS3FileSystem
 spark.hadoop.fs.s3n.multipart.uploads.block.size=536870912
 spark.hadoop.io.compression.codecs=org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec,com.hadoop.compression.lzo.LzoCodec,com.hadoop.compression.lzo.LzopCodec
 spark.hadoop.io.compression.codec.lzo.class=com.hadoop.compression.lzo.LzoCodec
+spark.ui.reverseProxy=true
 
 <% if ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] && ENV["SPARK_S3_AWS_SECRET_ACCESS_KEY"] %>
 spark.hadoop.fs.s3a.awsAccessKeyId=<%= ENV["SPARK_S3_AWS_ACCESS_KEY_ID"] %>
