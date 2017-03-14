@@ -83,6 +83,11 @@ you will be redirected to the root web ui of the backend you have selected.
 You will see proxied version of the spark master UI. You can hit the `/set-backend` path with other in-space hostname:port combos
 to be able to see workers and driver program ui.
 
+Some examples:
+
+* Go to the UI for worker.7 in your spark cluster `http://<your-spark-app>.herokuapp.com/set-backend/7.worker.<your-spark-app>.app.localspace:8081`
+* Go to the UI for a jobs' driver process, in this example running as `job.1` in the app `your-spark-job` `http://<your-spark-app>.herokuapp.com/set-backend/1.job.<your-spark-job>.app.localspace:4040`
+
 ### Logging
 
 The `LOG_LEVEL` environment variable controls the log4j log level for spark, it defaults to INFO, but you may set it to any 
