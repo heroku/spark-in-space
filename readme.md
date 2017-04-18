@@ -72,7 +72,17 @@ individual jobs may be tuned for memory & core utilization with [`spark-submit` 
 
 ### viewing spark ui
 
-there is an nginx server that can proxy to any dyno in the space. The server will default you to proxying to the master.1 spark process.
+There is an nginx server that can proxy to any dyno in the space. The server will default you to proxying to the master.1 spark process.
+
+[As of Spark 2.1.0](https://issues.apache.org/jira/browse/SPARK-15487), a new configuration supports improved UI functionality when served through a this kind of reverse proxy. To enable the reverse proxy behavior, set the fully-qualified hostname that clients use to access Spark Master UI:
+
+```bash
+# Point to your custom domain/SSL endpoint for the Spark in Space deployment:
+heroku config:set SPARK_REVERSE_PROXY_URL=https://spark-in-space.example.com
+
+# …or if you're using the plain HTTP Space app URLs:
+heroku config:set SPARK_REVERSE_PROXY_URL=http://<your-spark-app>.herokuapp.com
+```
 
 To set a cookie so that you proxy to the spark master, hit the following url
 
