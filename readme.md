@@ -148,11 +148,36 @@ For example, If you want 3 masters, you should `heroku scale master=3 -a $app`, 
 
 `spark://1.master.$app.app.localspace:7077,2.master.$app.app.localspace:7077,3.master.$app.app.localspace:7077`
 
-High availability spark masters require zookeeper.
+High availability spark masters require Zookeeper. Without Zookeeper to manage shared state, it's not possible to have jobs that run for more than ~24-hours, because the cluster's dynos will each be restarted every 22 to 26-hours. These restarts can also leave a new master unable to see all of the available workers/executors.
 
 If there is a `SPARK_ZK_ZOOKEEPER_URL` set, then the spark processes will be configured to use zookeeper for recovery.
 
 the `SPARK_ZK_ZOOKEEPER_URL` should be of the following form for a 3 node cluster `zookeeper://10.1.1.1:2181,zookeeper://10.1.1.2:2181,zookeeper://10.1.1.3:2181`
+
+### Graceful cycling without Multiple Spark Masters
+
+To prevent cluster degradation from the daily restarts, you may enable **graceful cycling**: when the master restarts, all of the workers will be restarted so that they associate correctly with the new master.
+
+To activate graceful cycling:
+
+1. Get a Heroku API Key from [Account](https://dashboard.heroku.com/account).
+   * Depending on your security constraints, it might be favorable to avoid using your own API Key. Instead, create a new Heroku account with **Operator** permission to the Spark-in-Space app.
+1. Set that API Key on the Spark-in-Space app:
+
+   ```bash
+   heroku config:set SPARK_HEROKU_ACCESS_TOKEN=the-token
+   ```
+1. Change the `master` entry in `Procfile` to:
+
+   ```bash
+   master: bin/spark-master-with-graceful-cycling
+   ```
+1. Commit & deploy:
+
+   ```bash
+   git commit . -m 'Enable graceful cycling'
+   git push heroku master
+   ```
 
 ### Spark Versions
 

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -e
+
+task_name='spark-master-with-graceful-cycling'
+app_name="$(echo $HEROKU_DNS_APP_NAME | sed -e's|^\([^.]*\)\..*$|\1|g')"
+worker_type='worker'
+access_token=$SPARK_HEROKU_ACCESS_TOKEN
+
+function graceful_startup {
+  local url="https://api.heroku.com/apps/$app_name/dynos/$worker_type"
+  local response_body='dynos-restart-response.txt'
+
+  echo "$task_name startup worker-action=restart"
+  local response_status="$(curl \
+    --silent \
+    --output $response_body \
+    --write-out "%{http_code}" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/vnd.heroku+json; version=3" \
+    -H "Authorization: Bearer $access_token" \
+    -X DELETE \
+    $url )"
+  echo "$task_name startup status=$response_status response='$(cat $response_body)'"
+}
+
+# Output warnings about missing config vars.
+if [ -z "${SPARK_HEROKU_ACCESS_TOKEN:-}" ]
+  then
+  echo "$task_name not-available \"\`SPARK_HEROKU_ACCESS_TOKEN\` env var is required\""
+fi
+if [ -z "${HEROKU_DNS_APP_NAME:-}" ]
+  then
+  echo "$task_name not-available \"spaces-dns-registry must be enabled\""
+fi
+
+# Use graceful cycling when a Heroku API auth token & DNS name is available.
+if [ -n "${SPARK_HEROKU_ACCESS_TOKEN:-}" ] && [ -n "${HEROKU_DNS_APP_NAME:-}" ]
+  then
+  graceful_startup
+fi
+
+# Finally, run Spark
+bin/spark-master

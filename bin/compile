@@ -96,6 +96,7 @@ mv $build_dir/spark-$spark_version-bin-hadoop$hadoop_version $build_dir/spark-ho
 mkdir -p $build_dir/bin
 cautious_build_overlay bin/master-url
 cautious_build_overlay bin/spark-master
+cautious_build_overlay bin/spark-master-with-graceful-cycling
 cautious_build_overlay bin/spark-shell
 cautious_build_overlay bin/spark-submit
 cautious_build_overlay bin/spark-worker
